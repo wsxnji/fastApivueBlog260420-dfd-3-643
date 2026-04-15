@@ -23,3 +23,27 @@ class Post(PostBase):
 
     class Config:
         from_attributes = True
+
+
+class UserLogin(BaseModel):
+    username: str
+    password: str
+
+
+class UserBase(BaseModel):
+    username: str
+    role: str
+
+
+class User(UserBase):
+    id: int
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
+class LoginResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    user: User

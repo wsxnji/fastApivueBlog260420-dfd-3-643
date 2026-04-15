@@ -1,7 +1,8 @@
 from sqlalchemy.orm import Session
-from models import Post
+from models import Post, User
 from schemas import PostCreate, PostUpdate
 from typing import List, Optional
+import bcrypt
 
 
 def get_post(db: Session, post_id: int) -> Optional[Post]:
@@ -38,3 +39,24 @@ def delete_post(db: Session, post_id: int) -> bool:
         db.commit()
         return True
     return False
+
+
+def get_user_by_username(db: Session, username: str) -> Optional[User]:
+    return db.query(User).filter(User.username == username).first()
+
+
+def get_user_by_id(db: Session, user_id: int) -> Optional[User]:
+    return db.query(User).filter(User.id == user_id).first()
+
+
+def create_user(db: Session, username: str, password: str, role: str = "普通用户") -> User:
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+    db_user = User(username=username, password=hashed_password, role=role)
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
+
+
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    return bcrypt.checkpw(plain_password.encode('utf-8'), hashed_password.encode('utf-8'))
