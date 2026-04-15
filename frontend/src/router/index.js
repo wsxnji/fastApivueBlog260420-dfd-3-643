@@ -1,9 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import PostDetail from '../views/PostDetail.vue'
-import Admin from '../views/Admin.vue'
 import CreatePost from '../views/CreatePost.vue'
 import EditPost from '../views/EditPost.vue'
+import Login from '../views/admin/Login.vue'
+import AdminLayout from '../views/admin/AdminLayout.vue'
+import Posts from '../views/admin/Posts.vue'
+import Users from '../views/admin/Users.vue'
 
 const routes = [
   {
@@ -17,19 +20,39 @@ const routes = [
     component: PostDetail
   },
   {
+    path: '/admin/login',
+    name: 'Login',
+    component: Login
+  },
+  {
     path: '/admin',
-    name: 'Admin',
-    component: Admin
-  },
-  {
-    path: '/admin/create',
-    name: 'CreatePost',
-    component: CreatePost
-  },
-  {
-    path: '/admin/edit/:id',
-    name: 'EditPost',
-    component: EditPost
+    component: AdminLayout,
+    children: [
+      {
+        path: '',
+        redirect: '/admin/posts'
+      },
+      {
+        path: 'posts',
+        name: 'Posts',
+        component: Posts
+      },
+      {
+        path: 'users',
+        name: 'Users',
+        component: Users
+      },
+      {
+        path: 'create',
+        name: 'CreatePost',
+        component: CreatePost
+      },
+      {
+        path: 'edit/:id',
+        name: 'EditPost',
+        component: EditPost
+      }
+    ]
   }
 ]
 

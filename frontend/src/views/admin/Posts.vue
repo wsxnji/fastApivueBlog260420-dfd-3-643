@@ -1,5 +1,5 @@
 <template>
-  <div class="admin">
+  <div class="posts-page">
     <h1 class="page-title">文章管理</h1>
     <div class="admin-header">
       <router-link to="/admin/create" class="btn btn-primary">新建文章</router-link>
@@ -36,7 +36,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { postApi } from '../api'
+import { postApi } from '../../api'
 
 const router = useRouter()
 const posts = ref([])

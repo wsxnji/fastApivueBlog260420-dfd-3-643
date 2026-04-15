@@ -33,3 +33,15 @@ export const postApi = {
     return api.delete(`/posts/${id}`)
   }
 }
+
+export const authApi = {
+  // 登录
+  login(data) {
+    return api.post('/admin/login', data)
+  },
+  
+  // 获取用户列表
+  getUsers() {
+    return api.get('/admin/users')
+  }
+}
