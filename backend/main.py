@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from database import engine, Base
 from routes import router
+from admin.auth import router as auth_router
 
 # 创建数据库表
 Base.metadata.create_all(bind=engine)
@@ -19,6 +20,7 @@ app.add_middleware(
 
 # 注册路由
 app.include_router(router, prefix="/api")
+app.include_router(auth_router, prefix="/api/admin")
 
 
 @app.get("/")
