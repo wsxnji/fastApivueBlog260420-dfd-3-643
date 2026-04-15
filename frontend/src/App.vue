@@ -1,21 +1,26 @@
 <template>
   <div id="app">
-    <nav class="navbar">
+    <nav v-if="!isAdminRoute" class="navbar">
       <div class="container">
         <router-link to="/" class="logo">我的博客</router-link>
         <div class="nav-links">
           <router-link to="/">首页</router-link>
-          <router-link to="/admin">管理</router-link>
+          <router-link to="/admin/dashboard">管理</router-link>
         </div>
       </div>
     </nav>
-    <main class="main-content">
+    <main :class="['main-content', { 'admin-content': isAdminRoute }]">
       <router-view />
     </main>
   </div>
 </template>
 
 <script setup>
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+const isAdminRoute = computed(() => route.path.startsWith('/admin'))
 </script>
 
 <style>
